@@ -16,7 +16,7 @@ var rank = function(p){
     p.noCanvas();
     p.noLoop();
 
-    var len = 100; // document.querySelector("#data-element > div").childElementCount;
+    var len = document.querySelector("#data-element > div").childElementCount;
 
     console.log("Entries: "+len+". Starting scan.");
 
