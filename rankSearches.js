@@ -1,12 +1,11 @@
 /*  
-    - This program requires a Youtube "MyActivity.html" file from Google. You can find yours at <https://takeout.google.com>.
-    - Copy a "MyActivity.html" file into the directory that this file and the provided index.html file are in.
+    - This program needs a Youtube "MyActivity.html" file from Google. You can find yours at <https://takeout.google.com>.
+    - Copy "MyActivity.html" into the directory that this file and the index.html file are in.
     - Start a local web server from the same directory. Go to localhost and open the console.
     - Wait a few seconds to a few minutes, depending on the size of your "MyActivity.html" file.
     - A text file containing your search terms ranked by frequency will download at the end.
 */
-
-var final_list = []; // Stores results
+var final_list = [];
 
 var rank = function(p){
 
@@ -17,11 +16,11 @@ var rank = function(p){
     p.noCanvas();
     p.noLoop();
 
-    var len = document.querySelector("#data-element > div").childElementCount;
+    var len = 100; // document.querySelector("#data-element > div").childElementCount;
 
     console.log("Entries: "+len+". Starting scan.");
 
-    for(var i = 1; i < len; i++){
+    for(var i = 1; i < len + 1; i++){
       console.log("Running...("+i+"/"+len+")");
       temp = document.querySelector("#data-element > div > div:nth-child("+i+") > div > div:nth-child(2)");
       if(temp.innerHTML.indexOf("Searched") != -1){
@@ -30,7 +29,7 @@ var rank = function(p){
       }
     };
 
-    console.log("Scan complete. Matches found: "+searches.length+". Starting sort.");
+    console.log("Scan complete. Matches found: "+searches.length+".\nStarting sort.");
 
     var flattened_data = "";
 
@@ -71,7 +70,5 @@ var rank = function(p){
 
     console.log('Sort complete. Saving text file.');
     p.save(final_list,'youtube_keywords_ranked.txt');
-
   };
-
 };
