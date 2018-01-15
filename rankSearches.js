@@ -6,15 +6,12 @@
     - A text file containing your search terms ranked by frequency will download at the end.
 */
 
-
 var final_list = []; // Stores results
-
 
 var rank = function(p){
 
   var searches = [];
   var temp;
-
 
   p.setup = function(){
     p.noCanvas();
@@ -71,10 +68,10 @@ var rank = function(p){
       }
       max_freq = max_freq - 1; 
     };
+
     console.log('Sort complete. Saving text file.');
     p.save(final_list,'youtube_keywords_ranked.txt');
 
-  
   };
 
 };
