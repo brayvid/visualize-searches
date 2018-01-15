@@ -2,7 +2,7 @@
     - This program requires a Youtube "MyActivity.html" file from Google. You can find yours at <https://takeout.google.com>.
     - Copy a "MyActivity.html" file into the directory that this file and the provided index.html file are in.
     - Start a local web server from the same directory. Go to localhost and open the console.
-    - Wait a few seconds to a few minutes, depending on the size of your "MyActivity.html" file.
+    - Wait a few seconds to several minutes, depending on the size of your "MyActivity.html" file.
     - A text file containing your search terms ranked by frequency will download at the end.
 */
 
