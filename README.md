@@ -3,4 +3,4 @@
 - Saves a report as a text file.
 - Video titles are not counted, only searched strings are.
 - JQuery, p5.js and p5.dom.js are used.
-- The process could take several minutes depending on the size of the MyActivity file.
+- The process could take several minutes depending on the size of the activity file.
