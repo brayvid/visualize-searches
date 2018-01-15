@@ -71,9 +71,3 @@ var rank = function(p){
     console.log('Sort complete. Saving text file.');
     p.save(final_list,'youtube_keywords_ranked.txt');
   };
-<<<<<<< HEAD
-};
-=======
-
-};
->>>>>>> 50c43ecac5cbd016d5d8cbe8f45b2042af6fa1ca
