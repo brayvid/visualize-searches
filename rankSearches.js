@@ -2,7 +2,7 @@
     - This program needs a Youtube "MyActivity.html" file from Google. You can find yours at <https://takeout.google.com>.
     - Copy "MyActivity.html" into the directory that this file and the index.html file are in.
     - Start a local web server from the same directory. Go to localhost and open the console.
-    - Wait a few seconds to a few minutes, depending on the size of your "MyActivity.html" file.
+    - Wait a few seconds to several minutes, depending on the size of your "MyActivity.html" file.
     - A text file containing your search terms ranked by frequency will download at the end.
 */
 var final_list = [];
@@ -71,4 +71,9 @@ var rank = function(p){
     console.log('Sort complete. Saving text file.');
     p.save(final_list,'youtube_keywords_ranked.txt');
   };
+<<<<<<< HEAD
 };
+=======
+
+};
+>>>>>>> 50c43ecac5cbd016d5d8cbe8f45b2042af6fa1ca
