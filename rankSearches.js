@@ -1,5 +1,5 @@
 /*  
-    - This program needs a Youtube "MyActivity.html" file from Google. You can find yours at <https://takeout.google.com>.
+    - This program needs a Youtube "MyActivity.html" file from Google. You can find yours at <https://takeout.google.com/settings/takeout>.
     - Copy "MyActivity.html" into the directory that this file and the index.html file are in.
     - Start a local web server from the same directory. Go to localhost and open the console.
     - Wait a few seconds to several minutes, depending on the size of your "MyActivity.html" file.
