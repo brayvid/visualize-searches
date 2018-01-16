@@ -31,7 +31,7 @@ var rank = function(p){
       }
     };
 
-    console.log("Scan complete. Matches found: "+searches.length+".\nStarting sort.");
+    console.log("Scan complete. Searches found: "+searches.length+".\nStarting sort.");
 
     var initTime = searches[searches.length - 1][1];
     var finalTime = searches[0][1];
@@ -46,7 +46,7 @@ var rank = function(p){
       monthGroups.push([]);
     }
 
-    // Put each entry in the correct month's "bin"
+    // Put each entry in the correct month's bin
     for(var i = searches.length - 1; i >= 0; i--){
       currentTime = searches[i][1];
       var correctBin = p.round(p.map(currentTime,initTime,finalTime,0,numBins - 1));
@@ -75,8 +75,9 @@ var rank = function(p){
       var words = [];
 
       for(var i=0; i<splitted.length; i++) {
-          words[splitted[i]] = ( typeof words[splitted[i]] != 'undefined' ) ? words[splitted[i]]+=1 : 1;
+          words[splitted[i]] = ( typeof words[splitted[i]] != 'undefined' ) ? words[splitted[i]]+=1 : 1;   // http://jsfiddle.net/radek/2hzHM/3/
       };
+
 
       var max_freq = 0;
 
@@ -108,7 +109,7 @@ var rank = function(p){
 
 
 
-  console.log('Sorting complete. Printing results.');
+  console.log('Sorting complete. Results stored in variable \'final_list\'.');
   console.log(final_list);
   // p.save(final_list,'youtube_keywords_ranked.txt');
 
