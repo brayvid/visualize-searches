@@ -3,7 +3,6 @@
     - Copy "MyActivity.html" into the directory that this file and the index.html file are in.
     - Start a local web server from the same directory. Go to localhost and open the console.
     - Wait a few seconds to several minutes, depending on the size of your "MyActivity.html" file.
-    - A text file containing your search terms ranked by frequency will download at the end.
 */
 
 var final_list = [];
