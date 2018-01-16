@@ -5,6 +5,7 @@
     - Wait a few seconds to several minutes, depending on the size of your "MyActivity.html" file.
     - A text file containing your search terms ranked by frequency will download at the end.
 */
+
 var final_list = [];
 
 var rank = function(p){
@@ -24,50 +25,95 @@ var rank = function(p){
       console.log("Running...("+i+"/"+len+")");
       temp = document.querySelector("#data-element > div > div:nth-child("+i+") > div > div:nth-child(2)");
       if(temp.innerHTML.indexOf("Searched") != -1){
+        var temp2 = [document.querySelector("#data-element > div > div:nth-child("+i+") > div > div:nth-child(2) > a").innerHTML, Date.parse(temp.innerHTML.match("(?<=<br>).*")[0])];
         console.log("Match!");
-        searches.push(document.querySelector("#data-element > div > div:nth-child("+i+") > div > div:nth-child(2) > a").innerHTML);
+        searches.push(temp2);
       }
     };
 
     console.log("Scan complete. Matches found: "+searches.length+".\nStarting sort.");
 
-    var flattened_data = "";
+    var initTime = searches[searches.length - 1][1];
+    var finalTime = searches[0][1];
+    var millisInterval = 2629743000; // ~ 1 month
+    var currentTime;
+    var monthGroups = [];
 
-    // p.save(searches,"my-youtube-search-history.txt");
-    for(var i = 0; i < searches.length; i++){
-        flattened_data  = flattened_data.concat(searches[i] + " ");
-      }
+    var numBins = p.round((finalTime - initTime)/millisInterval) + 1;
+    console.log("Number of bins to sort: "+numBins+".");
 
-    var splitted = flattened_data.split(" ");
-    var words = [];
+    for(var i = 0; i < numBins; i++){
+      monthGroups.push([]);
+    }
 
-    for(var i=0; i<splitted.length; i++) {
-        words[splitted[i]] = ( typeof words[splitted[i]] != 'undefined' ) ? words[splitted[i]]+=1 : 1;
+    // Put each entry in the correct month's "bin"
+    for(var i = searches.length - 1; i >= 0; i--){
+      currentTime = searches[i][1];
+      var correctBin = p.round(p.map(currentTime,initTime,finalTime,0,numBins - 1));
+      monthGroups[correctBin].push(searches[i][0]); // Exclude timestamps
+    };
+
+    // Sort each bin by frequency
+    for(var ind = 0; ind < numBins; ind++){
+
+      var flattened_data = "";
+
+      for(var i = 0; i < monthGroups[ind].length; i++){
+          flattened_data  = flattened_data.concat(" " + monthGroups[ind] + " ");
       };
 
-    var max_freq = 0;
+      var splitted = flattened_data.split(" ");
 
-    for (key_ in words) {
-      if(words[key_] > max_freq){
-        max_freq = words[key_];
-      }
-    };
+      flattened_data = "";
 
-    var counted_words = [];
+      for(var i = 0; i < splitted.length; i++){
+          flattened_data  = flattened_data.concat("," + splitted[i] + ",");
+      };
 
-    while(max_freq > 0){ 
-      console.log('Sorting...');
-      for(key_ in words){
-          if(words[key_] == max_freq){
-            if(!counted_words.includes(key_)){
-              counted_words.push(key_);
-              final_list.push(key_+" : "+words[key_]);
+      splitted = flattened_data.split(",");
+
+      var words = [];
+
+      for(var i=0; i<splitted.length; i++) {
+          words[splitted[i]] = ( typeof words[splitted[i]] != 'undefined' ) ? words[splitted[i]]+=1 : 1;
+      };
+
+      var max_freq = 0;
+
+      for (key_ in words) {
+        if(words[key_] > max_freq){
+          max_freq = words[key_];
+        }
+      };
+
+      var counted_words = [];
+      var month_list = [];
+      console.log("Max frequency in bin ("+(ind+1)+") : "+max_freq+".");
+
+      while(max_freq > 0){ 
+        console.log("Sorting...");
+        for(key_ in words){
+            if(words[key_] == max_freq){
+              if(!counted_words.includes(key_)){
+                counted_words.push(key_);
+                month_list.push(key_+" : "+words[key_]);
+              } 
             } 
-          } 
-      }
-      max_freq = max_freq - 1; 
-    };
+        }
+        max_freq = max_freq - 1; 
+      };
 
-    console.log('Sort complete. Saving text file.');
-    p.save(final_list,'youtube_keywords_ranked.txt');
+      final_list.push(month_list);
   };
+
+
+
+  console.log('Sorting complete. Printing results.');
+  console.log(final_list);
+  // p.save(final_list,'youtube_keywords_ranked.txt');
+
+};
+
+};
+
+
