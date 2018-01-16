@@ -51,9 +51,6 @@ var rank = function(p){
 
     var unique_words = [];
     var ignored_word_count = 0;
-
-     //  from global variable in external file
-    
     var frequencies = {};
     var dates = {};
 
@@ -61,7 +58,8 @@ var rank = function(p){
       var active_word = flattened_words_with_dates[i][0];
       var active_date = flattened_words_with_dates[i][1];
 
-      if(!(words_to_ignore.includes(active_word))){
+
+      if(!(words_to_ignore.includes(active_word))){   // words_to_ignore defined in external file
         
         if(!(unique_words.includes(active_word))){
           // Word has not appeared yet
