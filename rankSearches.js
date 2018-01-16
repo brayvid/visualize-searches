@@ -1,118 +1,97 @@
 /*  
-    - This program needs a Youtube "MyActivity.html" file from Google. You can find yours at <https://takeout.google.com/settings/takeout>.
-    - Copy "MyActivity.html" into the directory that this file and the index.html file are in.
+    - This program needs a Youtube "MyActivity.html" file from Google. You can factive_bin yours at <https://takeout.google.com/settings/takeout>.
+    - Copy "MyActivity.html" into the directory that this file and the active_binex.html file are in.
     - Start a local web server from the same directory. Go to localhost and open the console.
     - Wait a few seconds to several minutes, depending on the size of your "MyActivity.html" file.
 */
 
-var final_list = [];
-
 var rank = function(p){
 
-  var searches = [];
-  var temp;
+  var searches_with_dates = [];
+  var selected_data;
 
   p.setup = function(){
     p.noCanvas();
     p.noLoop();
 
-    var len = document.querySelector("#data-element > div").childElementCount;
+    // Most recent entries to scan for searches
+    var len = 1000; // document.querySelector("#data-element > div").childElementCount;
 
     console.log("Entries: "+len+". Starting scan.");
 
     for(var i = 1; i < len + 1; i++){
       console.log("Running...("+i+"/"+len+")");
-      temp = document.querySelector("#data-element > div > div:nth-child("+i+") > div > div:nth-child(2)");
-      if(temp.innerHTML.indexOf("Searched") != -1){
-        var temp2 = [document.querySelector("#data-element > div > div:nth-child("+i+") > div > div:nth-child(2) > a").innerHTML, Date.parse(temp.innerHTML.match("(?<=<br>).*")[0])];
+      selected_data = document.querySelector("#data-element > div > div:nth-child("+i+") > div > div:nth-child(2)");
+      if(selected_data.innerHTML.indexOf("Searched") != -1){
+        var search_and_date = [document.querySelector("#data-element > div > div:nth-child("+i+") > div > div:nth-child(2) > a").innerHTML, Date.parse(selected_data.innerHTML.match("(?<=<br>).*")[0])];
         console.log("Match!");
-        searches.push(temp2);
+        searches_with_dates.push(search_and_date);
       }
     };
 
-    console.log("Scan complete. Searches found: "+searches.length+".\nStarting sort.");
+    console.log("Scan complete. Searches found: "+searches_with_dates.length+"\nCounting words.");
 
-    var initTime = searches[searches.length - 1][1];
-    var finalTime = searches[0][1];
-    var millisInterval = 2629743000; // ~ 1 month
-    var currentTime;
-    var monthGroups = [];
+    var flattened_words_with_dates = [];
 
-    var numBins = p.round((finalTime - initTime)/millisInterval) + 1;
-    console.log("Number of bins to sort: "+numBins+".");
+    for(var i = 0; i < searches_with_dates.length; i++){
+        var words_in_search = searches_with_dates[i][0].split(/(?:,| )+/);
+        var search_time_ms = searches_with_dates[i][1];
 
-    for(var i = 0; i < numBins; i++){
-      monthGroups.push([]);
-    }
-
-    // Put each entry in the correct month's bin
-    for(var i = searches.length - 1; i >= 0; i--){
-      currentTime = searches[i][1];
-      var correctBin = p.round(p.map(currentTime,initTime,finalTime,0,numBins - 1));
-      monthGroups[correctBin].push(searches[i][0]); // Exclude timestamps
+        for(var j = 0; j < words_in_search.length; j++){
+          flattened_words_with_dates.push([words_in_search[j], search_time_ms]);
+        }
     };
 
-    // Sort each bin by frequency
-    for(var ind = 0; ind < numBins; ind++){
+    console.log("Total words used: "+flattened_words_with_dates.length);
+    
+    var unique_words = [];
+    var ignored_word_count = 0;
 
-      var flattened_data = "";
+    var stop_words = words_to_ignore; // from global variable in external file
+    
+    var frequencies = {};
+    var dates = {};
 
-      for(var i = 0; i < monthGroups[ind].length; i++){
-          flattened_data  = flattened_data.concat(" " + monthGroups[ind] + " ");
-      };
+    for(var i = 0; i < flattened_words_with_dates.length; i++){
+      var active_word = flattened_words_with_dates[i][0];
+      var active_date = flattened_words_with_dates[i][1];
 
-      var splitted = flattened_data.split(" ");
-
-      flattened_data = "";
-
-      for(var i = 0; i < splitted.length; i++){
-          flattened_data  = flattened_data.concat("," + splitted[i] + ",");
-      };
-
-      splitted = flattened_data.split(",");
-
-      var words = [];
-
-      for(var i=0; i<splitted.length; i++) {
-          words[splitted[i]] = ( typeof words[splitted[i]] != 'undefined' ) ? words[splitted[i]]+=1 : 1;   // http://jsfiddle.net/radek/2hzHM/3/
-      };
-
-
-      var max_freq = 0;
-
-      for (key_ in words) {
-        if(words[key_] > max_freq){
-          max_freq = words[key_];
+      if(!(stop_words.includes(active_word))){
+        
+        if(!(unique_words.includes(active_word))){
+          // Word has not appeared yet
+          unique_words.push(active_word);
+          frequencies[active_word] = 1;
+          dates[active_word] = [active_date];
+        }else{
+          // Word has appeared before
+          frequencies[active_word]++;
+          dates[active_word].push(active_date);
         }
-      };
 
-      var counted_words = [];
-      var month_list = [];
-      console.log("Max frequency in bin ("+(ind+1)+") : "+max_freq+".");
+      }else{
+        ignored_word_count++;
+      }
+    }
+    console.log("Unique words: "+unique_words.length);
+    console.log("Ignore count: "+ignored_word_count);
 
-      while(max_freq > 0){ 
-        console.log("Sorting...");
-        for(key_ in words){
-            if(words[key_] == max_freq){
-              if(!counted_words.includes(key_)){
-                counted_words.push(key_);
-                month_list.push(key_+" : "+words[key_]);
-              } 
-            } 
-        }
-        max_freq = max_freq - 1; 
-      };
+    var words_arr = [];
 
-      final_list.push(month_list);
+    for(var key in frequencies){
+      if(frequencies.hasOwnProperty(key)){
+        words_arr.push([key, frequencies[key], dates[key]]);
+      }
+    }
+    // sort items by value
+    var sorted_words = words_arr.sort(function(a, b){return a[1]-b[1]; }); // https://gist.github.com/umidjons/9614157
+    sorted_words.reverse();
+    console.log("Printing results and saving as JSON.")
+    console.log(sorted_words);
+
+    p.save(sorted_words,"youtube_searches_ranked.json");
+
   };
-
-
-
-  console.log('Sorting complete. Results stored in variable \'final_list\'.');
-  console.log(final_list);
-  // p.save(final_list,'youtube_keywords_ranked.txt');
-
-};
 
 };
 
