@@ -7,17 +7,17 @@
 
 var rank = function(p){
 
-  var searches_with_dates = [];
-  var selected_data;
-
   p.setup = function(){
     p.noCanvas();
     p.noLoop();
 
-    // Most recent entries to scan for searches
-    var len = 1000; // document.querySelector("#data-element > div").childElementCount;
+    var searches_with_dates = [];
+    var selected_data;
 
-    console.log("Entries: "+len+". Starting scan.");
+    // Most recent entries to scan for searches. Default is everything.
+    var len = document.querySelector("#data-element > div").childElementCount;
+
+    console.log("Scanning the latest "+len+" entries for searches.");
 
     for(var i = 1; i < len + 1; i++){
       console.log("Running...("+i+"/"+len+")");
@@ -29,7 +29,7 @@ var rank = function(p){
       }
     };
 
-    console.log("Scan complete. Searches found: "+searches_with_dates.length+"\nCounting words.");
+    console.log("Searches found: "+searches_with_dates.length);
 
     var flattened_words_with_dates = [];
 
