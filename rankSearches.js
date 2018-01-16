@@ -14,22 +14,29 @@ var rank = function(p){
     var searches_with_dates = [];
     var selected_data;
 
-    // Most recent entries to scan for searches. Default is everything.
-    var len = document.querySelector("#data-element > div").childElementCount;
+    // Most recent entries to scan for searches.
+    var len = 1000; // document.querySelector("#data-element > div").childElementCount;
+
+    var list_from_file = document.querySelector("#data-element > div");
+    
+    if(list_from_file == null){
+      console.log("No file found, exiting.");
+      return;
+    }
 
     console.log("Scanning the latest "+len+" entries for searches.");
 
     for(var i = 1; i < len + 1; i++){
       console.log("Running...("+i+"/"+len+")");
-      selected_data = document.querySelector("#data-element > div > div:nth-child("+i+") > div > div:nth-child(2)");
+      selected_data = list_from_file.querySelector("div:nth-child("+i+") > div > div:nth-child(2)");
       if(selected_data.innerHTML.indexOf("Searched") != -1){
-        var search_and_date = [document.querySelector("#data-element > div > div:nth-child("+i+") > div > div:nth-child(2) > a").innerHTML, Date.parse(selected_data.innerHTML.match("(?<=<br>).*")[0])];
+        var search_and_date = [selected_data.querySelector("a").innerHTML, Date.parse(selected_data.innerHTML.match("(?<=<br>).*")[0])];
         console.log("Match!");
         searches_with_dates.push(search_and_date);
       }
     };
 
-    console.log("Searches found: "+searches_with_dates.length);
+    console.log("Found "+searches_with_dates.length+" searches.");
 
     var flattened_words_with_dates = [];
 
@@ -42,12 +49,10 @@ var rank = function(p){
         }
     };
 
-    console.log("Total words used: "+flattened_words_with_dates.length);
-    
     var unique_words = [];
     var ignored_word_count = 0;
 
-    var stop_words = words_to_ignore; // from global variable in external file
+     //  from global variable in external file
     
     var frequencies = {};
     var dates = {};
@@ -56,7 +61,7 @@ var rank = function(p){
       var active_word = flattened_words_with_dates[i][0];
       var active_date = flattened_words_with_dates[i][1];
 
-      if(!(stop_words.includes(active_word))){
+      if(!(words_to_ignore.includes(active_word))){
         
         if(!(unique_words.includes(active_word))){
           // Word has not appeared yet
@@ -73,8 +78,7 @@ var rank = function(p){
         ignored_word_count++;
       }
     }
-    console.log("Unique words: "+unique_words.length);
-    console.log("Ignore count: "+ignored_word_count);
+    console.log("Total words: "+flattened_words_with_dates.length+"\nUnique words: "+unique_words.length+"\nIgnored words: "+ignored_word_count);
 
     var words_arr = [];
 
