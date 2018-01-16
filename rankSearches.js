@@ -15,7 +15,7 @@ var rank = function(p){
     var selected_data;
 
     // Most recent entries to scan for searches.
-    var len = 1000; // document.querySelector("#data-element > div").childElementCount;
+    var len = document.querySelector("#data-element > div").childElementCount;
 
     var list_from_file = document.querySelector("#data-element > div");
     
