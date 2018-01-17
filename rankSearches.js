@@ -1,8 +1,8 @@
 /*  
-    - This program needs a Youtube "MyActivity.html" file from Google. You can find yours at <https://takeout.google.com/settings/takeout>.
-    - Copy "MyActivity.html" into the directory that this file and the index.html file are in.
-    - Start a local web server from the same directory. Go to localhost and open the console.
-    - Wait a few seconds to several minutes, depending on the size of your "MyActivity.html" file.
+    - A Youtube "MyActivity.html" file from https://takeout.google.com/settings/takeout is required.
+    - Place the MyActivity file in the directory that this file, index.html and wordsToIgnore.js are in.
+    - Start a local web server from this directory. Navigate to localhost and open the browser console.
+    - Grab some hot cocoa. It could be a while.
 */
 
 var rank = function(p){
@@ -88,9 +88,9 @@ var rank = function(p){
     // Sort words by frequency value
     var sorted_words = words_arr.sort(function(a, b){return a[1]-b[1]; }); // https://gist.github.com/umidjons/9614157
     sorted_words.reverse();
+    
     console.log("Printing results and saving as JSON.");
     console.log(sorted_words);
-
     p.save(sorted_words,"youtube_searches_ranked.json");
 
 
