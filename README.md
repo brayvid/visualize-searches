@@ -1,6 +1,6 @@
-# rank-my-google-search-terms
+# most-searched-with-google-products
 - Generates an array where each element is [unique_word, count, [timestamps]], sorted by decreasing frequency.
-- Only searched words are counted. Common words like "the" are ignored.
+- Only searched words are counted. Common words like "the" and "and" are ignored.
 - JQuery 1.12.4 is used via CDN.
 
 ## usage
