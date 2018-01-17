@@ -5,87 +5,104 @@
   - Open a browser console and navigate to localhost. Wait a few seconds to a few minutes.
 */
 
-var rank = function(){
+var rank = function(p){
 
-  var list_from_file = document.querySelector("#data-element > div");
+  p.setup = function(){
 
-  if(list_from_file == null){
-    console.log("No file found, exiting.");
-    return;
-  }
+    var list_from_file = document.querySelector("#data-element > div");
 
-  var len = list_from_file.childElementCount; // Number of most recent events to scan for searches.
-
-  var searches_with_dates = [];
-
-  var selected_data;
-  var search_and_date;
-
-  for(var i = 1; i < len + 1; i++){
-    console.log("Running...("+i+"/"+len+")");
-    selected_data = list_from_file.querySelector("div:nth-child("+i+") > div > div:nth-child(2)");
-    if((selected_data.innerHTML.indexOf("Searched") != -1) && !(selected_data.querySelector("a") == null)){
-      search_and_date = [selected_data.querySelector("a").innerHTML, Date.parse(selected_data.innerHTML.match("(?<=<br>).*")[0])];
-      console.log("Match!");
-      searches_with_dates.push(search_and_date);
+    if(list_from_file == null){
+      console.log("No file found, exiting.");
+      return;
     }
-  };
 
-  var flattened_words_with_dates = []; 
+    var len = list_from_file.childElementCount; // Number of most recent events to scan for searches.
 
-  for(var i = 0; i < searches_with_dates.length; i++){
-      var words_in_search = searches_with_dates[i][0].split(/(?:,| )+/);  // Regex from https://stackoverflow.com/a/650031
-      var search_time_ms = searches_with_dates[i][1];
+    var searches_with_dates = [];
 
-      for(var j = 0; j < words_in_search.length; j++){
-        flattened_words_with_dates.push([words_in_search[j], search_time_ms]);
+    var selected_data;
+    var search_and_date;
+
+    for(var i = 1; i < len + 1; i++){
+      console.log("Running...("+i+"/"+len+")");
+      selected_data = list_from_file.querySelector("div:nth-child("+i+") > div > div:nth-child(2)");
+      if((selected_data.innerHTML.indexOf("Searched") != -1) && !(selected_data.querySelector("a") == null)){
+        search_and_date = [selected_data.querySelector("a").innerHTML, Date.parse(selected_data.innerHTML.match("(?<=<br>).*")[0])];
+        console.log("Match!");
+        searches_with_dates.push(search_and_date);
       }
-  };
+    };
 
-  var unique_words = [];
-  var frequencies = {};
-  var dates = {};
+    var flattened_words_with_dates = []; 
 
-  var ignored_word_count = 0;
+    for(var i = 0; i < searches_with_dates.length; i++){
+        var words_in_search = searches_with_dates[i][0].split(/(?:,| )+/);  // Regex from https://stackoverflow.com/a/650031
+        var search_time_ms = searches_with_dates[i][1];
 
-  var duplicate_count = 0;
+        for(var j = 0; j < words_in_search.length; j++){
+          flattened_words_with_dates.push([words_in_search[j], search_time_ms]);
+        }
+    };
 
-  for(var i = 0; i < flattened_words_with_dates.length; i++){
-    var active_word = flattened_words_with_dates[i][0];
-    var active_date = flattened_words_with_dates[i][1];
+    var unique_words = [];
+    var frequencies = {};
+    var dates = {};
 
-    if(!(words_to_ignore.includes(active_word))){   // words_to_ignore defined in external file
-      if(!(unique_words.includes(active_word))){
-      // Word has not appeared yet
-        unique_words.push(active_word);
-        frequencies[active_word] = 1;
-        dates[active_word] = [active_date];
-      }else{
-      // Word has appeared before
-        if(!(dates[active_word].includes(active_date))){ // Prevents duplicate entries
-          frequencies[active_word]++;
-          dates[active_word].push(active_date);
+    var ignored_word_count = 0;
+
+    var duplicate_count = 0;
+
+    for(var i = 0; i < flattened_words_with_dates.length; i++){
+      var active_word = flattened_words_with_dates[i][0];
+      var active_date = flattened_words_with_dates[i][1];
+
+      if(!(words_to_ignore.includes(active_word))){   // words_to_ignore defined in external file
+        if(!(unique_words.includes(active_word))){
+        // Word has not appeared yet
+          unique_words.push(active_word);
+          frequencies[active_word] = 1;
+          dates[active_word] = [active_date];
         }else{
-          duplicate_count++;
-        } 
+        // Word has appeared before
+          if(!(dates[active_word].includes(active_date))){ // Prevents duplicate entries
+            frequencies[active_word]++;
+            dates[active_word].push(active_date);
+          }else{
+            duplicate_count++;
+          } 
+        }
+      }else{
+        ignored_word_count++;
       }
-    }else{
-      ignored_word_count++;
-    }
-  };
+    };
 
-  var words_arr = [];
+    var words_arr = [];
 
-  for(var key in frequencies){
-    words_arr.push([key, frequencies[key], dates[key]]);
-  };
+    for(var key in frequencies){
+      words_arr.push([key, frequencies[key], dates[key]]);
+    };
 
-  // Sort words by frequency value
-  var sorted_words = words_arr.sort(function(a, b){return b[1]-a[1]; }); // https://gist.github.com/umidjons/9614157
+    // Sort words by frequency value
+    var sorted_words = words_arr.sort(function(a, b){return b[1]-a[1]; }); // https://gist.github.com/umidjons/9614157
 
-  console.log("Found "+searches_with_dates.length+" searches in "+len+" events.");
-  console.log("Unique words: "+unique_words.length+"\nTotal words: "+flattened_words_with_dates.length+"\nIgnored words: "+ignored_word_count);
-  console.log(sorted_words);
+    console.log("Found "+searches_with_dates.length+" searches in "+len+" events.");
+    console.log("Unique words: "+unique_words.length+"\nTotal words: "+flattened_words_with_dates.length+"\nIgnored words: "+ignored_word_count);
+    console.log(sorted_words);
+
+    // p.createCanvas(p.windowWidth,p.windowHeight);
+    // p.background(0);
+    // p.frameRate(30);
+
+};
+
+  // p.draw = function(){
+
+  // };
+
+  // p.windowResized = function(){
+  //   p.resizeCanvas(p.windowWidth,p.windowHeight);
+  //   p.background(0);
+  // };
 
 };
 

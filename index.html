@@ -2,18 +2,24 @@
 <html>
 <head>
   <title></title>
-  <!-- JQUERY 1.12.4 -->
+  <!-- p5 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.min.js" integrity="sha256-bXPU+HvtR3tP1IYHZVEFHzEZ9p5zkY8GLPnOnJXW67k=" crossorigin="anonymous"></script>
+
+  <script src="wordsToIgnore.js"></script>
+  <script src="rankSearches.js"></script>
+
+    <!-- JQUERY 1.12.4 -->
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"
   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
   crossorigin="anonymous"></script>
-  <script src="wordsToIgnore.js"></script>
-  <script src="rankSearches.js"></script>
+
 </head>
 <body>
   <div id="data-element" style="display:none"></div>
+  <div id="p5-canvas"></div>
   <script type="text/javascript"> 
       console.log("Loading file, please wait...");
-      $("#data-element").load("MyActivity.html", rank); 
+      $("#data-element").load("MyActivity.html",function(){new p5(rank);}); 
   </script> 
 </body>
 </html>
