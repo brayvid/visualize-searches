@@ -7,21 +7,19 @@
   src="https://code.jquery.com/jquery-1.12.4.min.js"
   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
   crossorigin="anonymous"></script>
-  
-  <!-- P5 0.5.16 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.min.js" integrity="sha256-bXPU+HvtR3tP1IYHZVEFHzEZ9p5zkY8GLPnOnJXW67k=" crossorigin="anonymous"></script>
-
-  <!-- P5.DOM 0.5.16 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/addons/p5.dom.min.js" integrity="sha256-6HSgTo0/jC1Jt6h5Hp9Tnz0u0qV0PLy+TGoR1ThmotU=" crossorigin="anonymous"></script>
 
   <script src="rankSearches.js"></script>
   <script src="wordsToIgnore.js"></script>
 </head>
 <body>
-  <div id="data-element"></div>
+  
+  <div id="data-element" style="display:none"></div>
+
   <script type="text/javascript"> 
-      $("#data-element").load("MyActivity.html",function(){var myp5 = new p5(rank)});
+
+      $("#data-element").load("MyActivity.html", rank);
       console.log("Loading file, please wait...");
+
   </script> 
 </body>
 </html>
