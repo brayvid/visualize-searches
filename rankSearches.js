@@ -14,8 +14,7 @@ var rank = function(){
     return;
   }
 
-  // Number of most recent events to scan for searches.
-  var len = list_from_file.childElementCount;
+  var len = list_from_file.childElementCount; // Number of most recent events to scan for searches.
 
   var searches_with_dates = [];
 
@@ -35,7 +34,7 @@ var rank = function(){
   var flattened_words_with_dates = []; 
 
   for(var i = 0; i < searches_with_dates.length; i++){
-      var words_in_search = searches_with_dates[i][0].split(/(?:,| )+/);  // regex from https://stackoverflow.com/a/650031
+      var words_in_search = searches_with_dates[i][0].split(/(?:,| )+/);  // Regex from https://stackoverflow.com/a/650031
       var search_time_ms = searches_with_dates[i][1];
 
       for(var j = 0; j < words_in_search.length; j++){
@@ -49,28 +48,31 @@ var rank = function(){
 
   var ignored_word_count = 0;
 
+  var duplicate_count = 0;
+
   for(var i = 0; i < flattened_words_with_dates.length; i++){
     var active_word = flattened_words_with_dates[i][0];
     var active_date = flattened_words_with_dates[i][1];
 
     if(!(words_to_ignore.includes(active_word))){   // words_to_ignore defined in external file
       if(!(unique_words.includes(active_word))){
-        // Word has not appeared yet
+      // Word has not appeared yet
         unique_words.push(active_word);
         frequencies[active_word] = 1;
         dates[active_word] = [active_date];
       }else{
-        // Word has appeared before
-        frequencies[active_word]++;
-        dates[active_word].push(active_date);
+      // Word has appeared before
+        if(!(dates[active_word].includes(active_date))){ // Prevents duplicate entries
+          frequencies[active_word]++;
+          dates[active_word].push(active_date);
+        }else{
+          duplicate_count++;
+        } 
       }
     }else{
       ignored_word_count++;
     }
   };
-
-  console.log("Found "+searches_with_dates.length+" searches in "+len+" events.");
-  console.log("Unique words: "+unique_words.length+"\nTotal words: "+flattened_words_with_dates.length+"\nIgnored words: "+ignored_word_count);
 
   var words_arr = [];
 
@@ -81,6 +83,8 @@ var rank = function(){
   // Sort words by frequency value
   var sorted_words = words_arr.sort(function(a, b){return b[1]-a[1]; }); // https://gist.github.com/umidjons/9614157
 
+  console.log("Found "+searches_with_dates.length+" searches in "+len+" events.");
+  console.log("Unique words: "+unique_words.length+"\nTotal words: "+flattened_words_with_dates.length+"\nIgnored words: "+ignored_word_count);
   console.log(sorted_words);
 
 };
