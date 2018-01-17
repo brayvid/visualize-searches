@@ -41,7 +41,7 @@ var rank = function(p){
     var flattened_words_with_dates = [];
 
     for(var i = 0; i < searches_with_dates.length; i++){
-        var words_in_search = searches_with_dates[i][0].split(/(?:,| )+/);
+        var words_in_search = searches_with_dates[i][0].split(/(?:,| )+/);  // https://stackoverflow.com/a/650031
         var search_time_ms = searches_with_dates[i][1];
 
         for(var j = 0; j < words_in_search.length; j++){
@@ -50,17 +50,17 @@ var rank = function(p){
     };
 
     var unique_words = [];
-    var ignored_word_count = 0;
     var frequencies = {};
     var dates = {};
+
+    var ignored_word_count = 0;
+
 
     for(var i = 0; i < flattened_words_with_dates.length; i++){
       var active_word = flattened_words_with_dates[i][0];
       var active_date = flattened_words_with_dates[i][1];
 
-
       if(!(words_to_ignore.includes(active_word))){   // words_to_ignore defined in external file
-        
         if(!(unique_words.includes(active_word))){
           // Word has not appeared yet
           unique_words.push(active_word);
@@ -71,11 +71,10 @@ var rank = function(p){
           frequencies[active_word]++;
           dates[active_word].push(active_date);
         }
-
       }else{
         ignored_word_count++;
       }
-    }
+    };
     console.log("Total words: "+flattened_words_with_dates.length+"\nUnique words: "+unique_words.length+"\nIgnored words: "+ignored_word_count);
 
     var words_arr = [];
@@ -84,17 +83,20 @@ var rank = function(p){
       if(frequencies.hasOwnProperty(key)){
         words_arr.push([key, frequencies[key], dates[key]]);
       }
-    }
-    // sort items by value
+    };
+
+    // Sort words by frequency value
     var sorted_words = words_arr.sort(function(a, b){return a[1]-b[1]; }); // https://gist.github.com/umidjons/9614157
     sorted_words.reverse();
-    console.log("Printing results and saving as JSON.")
+    console.log("Printing results and saving as JSON.");
     console.log(sorted_words);
 
     p.save(sorted_words,"youtube_searches_ranked.json");
 
-  };
 
-};
+  };  // end p.setup()
+
+return;
+};  // end rank()
 
 
