@@ -1,4 +1,4 @@
-# myactivity-search-term-frequencies
+# rank-my-google-search-terms
 - Generates an array where each element is [unique_word, count, [timestamps]], sorted by decreasing frequency.
 - Only searched words are counted. Common words like "the" are ignored.
 - JQuery 1.12.4 is used via CDN.
