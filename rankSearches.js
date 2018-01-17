@@ -31,17 +31,17 @@ var rank = function(p){
       selected_data = list_from_file.querySelector("div:nth-child("+i+") > div > div:nth-child(2)");
       if(selected_data.innerHTML.indexOf("Searched") != -1){
         var search_and_date = [selected_data.querySelector("a").innerHTML, Date.parse(selected_data.innerHTML.match("(?<=<br>).*")[0])];
-        console.log("Match!");
+        console.log("Match");
         searches_with_dates.push(search_and_date);
       }
     };
 
     console.log("Found "+searches_with_dates.length+" searches.");
-
+ 
     var flattened_words_with_dates = [];
 
     for(var i = 0; i < searches_with_dates.length; i++){
-        var words_in_search = searches_with_dates[i][0].split(/(?:,| )+/);  // https://stackoverflow.com/a/650031
+        var words_in_search = searches_with_dates[i][0].split(/(?:,| )+/);  // regex from https://stackoverflow.com/a/650031
         var search_time_ms = searches_with_dates[i][1];
 
         for(var j = 0; j < words_in_search.length; j++){
@@ -54,7 +54,6 @@ var rank = function(p){
     var dates = {};
 
     var ignored_word_count = 0;
-
 
     for(var i = 0; i < flattened_words_with_dates.length; i++){
       var active_word = flattened_words_with_dates[i][0];
@@ -75,28 +74,23 @@ var rank = function(p){
         ignored_word_count++;
       }
     };
-    console.log("Total words: "+flattened_words_with_dates.length+"\nUnique words: "+unique_words.length+"\nIgnored words: "+ignored_word_count);
+    console.log("Unique words: "+unique_words.length+"\nTotal words: "+flattened_words_with_dates.length+"\nIgnored words: "+ignored_word_count);
 
     var words_arr = [];
 
     for(var key in frequencies){
-      if(frequencies.hasOwnProperty(key)){
-        words_arr.push([key, frequencies[key], dates[key]]);
-      }
+      words_arr.push([key, frequencies[key], dates[key]]);
     };
 
     // Sort words by frequency value
-    var sorted_words = words_arr.sort(function(a, b){return a[1]-b[1]; }); // https://gist.github.com/umidjons/9614157
-    sorted_words.reverse();
+    var sorted_words = words_arr.sort(function(a, b){return b[1]-a[1]; }); // https://gist.github.com/umidjons/9614157
     
     console.log("Printing results and saving JSON file.");
     console.log(sorted_words);
     p.save(sorted_words,"youtube_searches_ranked.json");
 
-
-  };  // end p.setup()
-
-return;
-};  // end rank()
+  };  // end of setup()
+  
+};  // end of rank()
 
 
