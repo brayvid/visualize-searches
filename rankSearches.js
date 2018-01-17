@@ -25,7 +25,7 @@ var rank = function(){
   for(var i = 1; i < len + 1; i++){
     console.log("Running...("+i+"/"+len+")");
     selected_data = list_from_file.querySelector("div:nth-child("+i+") > div > div:nth-child(2)");
-    if(selected_data.innerHTML.indexOf("Searched") != -1){
+    if((selected_data.innerHTML.indexOf("Searched") != -1) && !(selected_data.querySelector("a") == null)){
       search_and_date = [selected_data.querySelector("a").innerHTML, Date.parse(selected_data.innerHTML.match("(?<=<br>).*")[0])];
       console.log("Match!");
       searches_with_dates.push(search_and_date);

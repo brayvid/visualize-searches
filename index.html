@@ -3,23 +3,17 @@
 <head>
   <title></title>
   <!-- JQUERY 1.12.4 -->
-  <script
-  src="https://code.jquery.com/jquery-1.12.4.min.js"
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"
   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
   crossorigin="anonymous"></script>
-
-  <script src="rankSearches.js"></script>
   <script src="wordsToIgnore.js"></script>
+  <script src="rankSearches.js"></script>
 </head>
 <body>
-  
   <div id="data-element" style="display:none"></div>
-
   <script type="text/javascript"> 
-
-      $("#data-element").load("MyActivity.html", rank);
       console.log("Loading file, please wait...");
-
+      $("#data-element").load("MyActivity.html", rank); 
   </script> 
 </body>
 </html>
