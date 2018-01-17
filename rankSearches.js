@@ -11,20 +11,20 @@ var rank = function(p){
     p.noCanvas();
     p.noLoop();
 
-    var searches_with_dates = [];
-    var selected_data;
-
-    // Most recent entries to scan for searches.
-    var len = document.querySelector("#data-element > div").childElementCount;
-
     var list_from_file = document.querySelector("#data-element > div");
-    
+
     if(list_from_file == null){
       console.log("No file found, exiting.");
       return;
     }
 
+    // Most recent entries to scan for searches.
+    var len = list_from_file.childElementCount;
+  
     console.log("Scanning the latest "+len+" entries for searches.");
+
+    var searches_with_dates = [];
+    var selected_data;
 
     for(var i = 1; i < len + 1; i++){
       console.log("Running...("+i+"/"+len+")");
@@ -89,8 +89,7 @@ var rank = function(p){
     console.log(sorted_words);
     p.save(sorted_words,"youtube_searches_ranked.json");
 
-  };  // end of setup()
+  };
   
-};  // end of rank()
-
+};
 
