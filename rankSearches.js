@@ -1,8 +1,8 @@
 /*  
-    - A Youtube "MyActivity.html" file from https://takeout.google.com/settings/takeout is required.
-    - Place the MyActivity file in the directory that this file, index.html and wordsToIgnore.js are in.
-    - Start a local web server from this directory. Navigate to localhost and open the browser console.
-    - Wait up to a few minutes if the MyHistory file is large.
+  - A Youtube "MyActivity.html" file from https://takeout.google.com/settings/takeout is required.
+  - Place the MyActivity file in the directory that this file, index.html and wordsToIgnore.js are in.
+  - Start a local web server from this directory. Navigate to localhost and open the browser console.
+  - Wait up to a few minutes if the MyHistory file is large.
 */
 
 var rank = function(p){
