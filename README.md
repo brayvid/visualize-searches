@@ -5,7 +5,7 @@
 - The process could take several minutes depending on the size of the MyActivity file.
 
 ## Instructions
-- The required MyActivity file is available at https://takeout.google.com/settings/takeout by selecting My Activity > Select specific activity data > Youtube, and following the prompts.
+- The required "MyActivity.html" file is available at https://takeout.google.com/settings/takeout by selecting My Activity > Select specific activity data > Youtube, and following the prompts.
 - Place the MyActivity file in the directory that this file, index.html and wordsToIgnore.js are in.
-- You'll need to start a local web server from this directory. One option here: https://www.npmjs.com/package/http-server.
+- Start a local web server from this directory. One option here: https://www.npmjs.com/package/http-server.
 - Open the browser console, navigate to localhost, and wait a few minutes.
