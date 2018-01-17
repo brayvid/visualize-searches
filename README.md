@@ -1,5 +1,5 @@
 # myactivity-search-term-frequencies
-- Generates an array where each element is [unique_word, frequency, [timestamps]], sorted by decreasing frequency.
+- Generates an array where each element is [unique_word, count, [timestamps]], sorted by decreasing frequency.
 - Only searched words are counted. Common words like "the" are ignored.
 - JQuery 1.12.4 is used via CDN.
 
