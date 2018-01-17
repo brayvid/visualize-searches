@@ -2,7 +2,7 @@
     - A Youtube "MyActivity.html" file from https://takeout.google.com/settings/takeout is required.
     - Place the MyActivity file in the directory that this file, index.html and wordsToIgnore.js are in.
     - Start a local web server from this directory. Navigate to localhost and open the browser console.
-    - Grab some hot cocoa. It could be a while.
+    - Wait up to a few minutes if the MyHistory file is large.
 */
 
 var rank = function(p){
@@ -15,7 +15,7 @@ var rank = function(p){
     var selected_data;
 
     // Most recent entries to scan for searches.
-    var len = document.querySelector("#data-element > div").childElementCount;
+    var len = 5000; // document.querySelector("#data-element > div").childElementCount;
 
     var list_from_file = document.querySelector("#data-element > div");
     
@@ -89,7 +89,7 @@ var rank = function(p){
     var sorted_words = words_arr.sort(function(a, b){return a[1]-b[1]; }); // https://gist.github.com/umidjons/9614157
     sorted_words.reverse();
     
-    console.log("Printing results and saving as JSON.");
+    console.log("Printing results and saving JSON file.");
     console.log(sorted_words);
     p.save(sorted_words,"youtube_searches_ranked.json");
 
