@@ -69,7 +69,7 @@ var rank = function(){
     }
   };
 
-  console.log("Found "+searches_with_dates.length+" searches in "+len+" events");
+  console.log("Found "+searches_with_dates.length+" searches in "+len+" events.");
   console.log("Unique words: "+unique_words.length+"\nTotal words: "+flattened_words_with_dates.length+"\nIgnored words: "+ignored_word_count);
 
   var words_arr = [];
