@@ -1,4 +1,4 @@
-# most-searched-with-google-products
+# most-searched-in-google-products
 - Generates an array where each element is [unique_word, count, [timestamps]], sorted by decreasing count.
 - Only searched words are counted. Common words like "the" and "a" are ignored.
 - Displays a monthly-frequency vs time plot.
