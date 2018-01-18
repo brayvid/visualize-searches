@@ -2,7 +2,7 @@
 - Generates an array where each element is [unique_word, count, [timestamps]], sorted by decreasing count.
 - Displays a monthly-frequency vs time plot.
 - Only searched words are counted. Common words like "the" and "a" are ignored.
-- JQuery 1.12.4 is used via CDN.
+- JQuery and p5.js are used via CDN.
 
 ## Usage
 - The required "MyActivity.html" file can be found at https://takeout.google.com/settings/takeout. Select: My Activity > Select specific activity data > (Choose a service), and follow the prompts.
