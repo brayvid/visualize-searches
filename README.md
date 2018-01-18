@@ -1,7 +1,7 @@
 # most-searched-with-google-products
 - Generates an array where each element is [unique_word, count, [timestamps]], sorted by decreasing count.
-- Displays a monthly-frequency vs time plot.
 - Only searched words are counted. Common words like "the" and "a" are ignored.
+- Displays a monthly-frequency vs time plot.
 - JQuery and p5.js are used via CDN.
 
 ## Usage
