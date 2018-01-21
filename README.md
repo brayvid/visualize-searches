@@ -1,5 +1,5 @@
 # most-searched-in-google-products
-- Displays a frequency vs. time graph of the 16 most searched words, one per specified interval of time.
+- Displays a frequency vs. time graph of the top&ask; words.
 - Only searched words are counted, and common words like "the" and "a" are ignored.
 - JQuery and p5.js are used via CDN.
 
