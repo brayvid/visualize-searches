@@ -201,7 +201,7 @@ var frequency = function(s){
       s.vertex(graphCenter.x - (graphWidth/2) + graphBorder, graphCenter.y + (graphHeight/2) - graphBorder);
       for(var j = 0; j < num_bins; j++){
 
-        var current_x = s.map(j, 0, num_bins, graphCenter.x - (graphWidth/2) + graphBorder, graphCenter.x + (graphWidth/2) - graphBorder);
+        var current_x = s.map(j, 0, num_bins - 1, graphCenter.x - (graphWidth/2) + graphBorder, graphCenter.x + (graphWidth/2) - graphBorder);
         var current_y = s.map(word_timeline[active_word][j], 0, global_max_freq,  graphCenter.y + (graphHeight/2) - graphBorder, graphCenter.y - (graphHeight/2) + graphBorder);
         s.vertex(current_x, current_y);
       }
