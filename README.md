@@ -3,7 +3,7 @@
 - Only searched words are counted, and common words like "the" and "a" are ignored.
 - JQuery and p5.js are used via CDN.
 
-&ast; The corpus is sorted into 16 equally spaced time-bins. The number 16 can be changed in the code. The most frequent word in each bin is tracked throughout time.
+&ast; The corpus is sorted into 16 equally spaced time-bins. The most frequent word in each bin is tracked throughout time. The number of bins can be changed in the code.
 
 ## Usage
 - The required "MyActivity.html" file can be found at https://takeout.google.com/settings/takeout. Select: My Activity > Select specific activity data > (Choose a service), and follow the prompts.
