@@ -29,7 +29,7 @@ var frequency = function(s){
     console.log("Running...("+i+"/"+num_last_entries_to_check+")");
     selected_data = list_elem.querySelector("div:nth-child("+i+") > div > div:nth-child(2)");
     if((selected_data.innerHTML.indexOf("Searched") != -1) && !(selected_data.querySelector("a") == null)){
-      search_and_date = [selected_data.querySelector("a").innerHTML, Date.parse(selected_data.innerHTML.match("(?<=<br>).*")[0])];
+      search_and_date = [selected_data.querySelector("a").innerHTML.toLowerCase(), Date.parse(selected_data.innerHTML.match("(?<=<br>).*")[0])];
       console.log("Match!");
       searches_with_dates.push(search_and_date);
     }
@@ -126,26 +126,39 @@ var frequency = function(s){
     // Get n top words and save as array
 
     var top_words = [];
+    
+    // Same word appearing in different bins
 
     for(var i = 0; i < num_bins; i++){
       var to_compare = [];
+      
       for(active_word in word_timeline){
         to_compare.push([active_word, word_timeline[active_word][i]]);
       }
+      
       to_compare.sort(function(a,b){return b[1]-a[1];});
+
       for(var j = 0; j < top; j++){
         var test = to_compare[j];
-        if(!top_words.includes(test)){
-          top_words.push(test);
+        var skip = false;
+        for(var k = 0; k < top_words.length; k++){
+          if(top_words[k].includes(test[0])){
+            skip = true;
+          }
+        }
+        if(!skip){
+          top_words.push(test)
         }
       }
+
     }
 
     top_words.sort(function(a,b){return b[1]-a[1]});
-    
+
     for(var i = 0; i < top_words.length; i++){
       top_words[i] = top_words[i][0];
     }
+
     return top_words;
   };
 
@@ -165,15 +178,17 @@ var frequency = function(s){
     s.noStroke();
     s.textAlign(s.CENTER);
 
-    s.num_top_words_to_display_per_bin_slider = s.createSlider(1, 10, 1, 1);
-    s.num_top_words_to_display_per_bin_slider.position(10, 10);
-    s.num_top_words_to_display_per_bin_slider.style('width', '80px');
-
     s.colors = [];
     for(var i = 0; i < 1000; i++){
       s.colors.push([s.random(50,225), s.random(50,225), s.random(50,225)]);
     }
 
+    s.words_to_plot = topWords(1);
+    s.words_to_label = s.words_to_plot;
+    
+    s.num_axis_dates = 11;
+
+    s.noLoop();
   };
 
   s.draw = function(){
@@ -185,16 +200,16 @@ var frequency = function(s){
     s.background(128);
     s.rect(s.width/2,s.height/2,graphWidth, graphHeight);
     
-    var words_to_plot = topWords( s.num_top_words_to_display_per_bin_slider.value() );
+    
 
 
     s.push();
 
-    for(var i = 0; i < words_to_plot.length; i++){
+    for(var i = 0; i < s.words_to_plot.length; i++){
 
       s.fill(s.colors[i][0], s.colors[i][1], s.colors[i][2]);
 
-      var active_word = words_to_plot[i];
+      var active_word = s.words_to_plot[i];
 
       s.beginShape();
 
@@ -202,7 +217,7 @@ var frequency = function(s){
       for(var j = 0; j < num_bins; j++){
 
         var current_x = s.map(j, 0, num_bins - 1, graphCenter.x - (graphWidth/2) + graphBorder, graphCenter.x + (graphWidth/2) - graphBorder);
-        var current_y = s.map(word_timeline[active_word][j], 0, global_max_freq,  graphCenter.y + (graphHeight/2) - graphBorder, graphCenter.y - (graphHeight/2) + graphBorder);
+        var current_y = s.map(word_timeline[active_word][j], 0, global_max_freq,  graphCenter.y + (graphHeight/2) - graphBorder, graphCenter.y - (graphHeight/2) + graphBorder + 20);
         s.vertex(current_x, current_y);
       }
       s.vertex(graphCenter.x + (graphWidth/2) - graphBorder, graphCenter.y + (graphHeight/2) - graphBorder);
@@ -212,45 +227,44 @@ var frequency = function(s){
 
     s.pop();
 
-    var words_to_label = topWords(1);
     // var ordered_words_to_label = [];
 
     // for(var i = 0; i < words_to_label.length; i++){
 
     // };
 
-    for(var i = 0; i < words_to_label.length; i++){
+    for(var i = 0; i < s.words_to_label.length; i++){
       s.push();
-      var text_loc_x = s.map(i, 0, words_to_label.length - 1, graphCenter.x - (graphWidth/2) + graphBorder + 5, graphCenter.x + (graphWidth/2) - graphBorder);
-      var active_word = words_to_label[i];
+      var text_loc_x = s.map(i, 0, s.words_to_label.length - 1, graphCenter.x - (graphWidth/2) + graphBorder + 5, graphCenter.x + (graphWidth/2) - graphBorder - 5);
+      var active_word = s.words_to_label[i];
         s.fill(s.colors[i][0], s.colors[i][1], s.colors[i][2]);
-        s.rect(text_loc_x, 3* graphBorder, 80, 20);
+        s.rect(text_loc_x, 3 * graphBorder, 80, 20);
         s.fill(255);
-        s.text(active_word,text_loc_x - 5, 3* graphBorder + 3);
+        s.text(active_word,text_loc_x, 3* graphBorder + 4);
         
       s.pop();
-    }
+    };
 
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-    var begin_end_dates = [];
+    var axis_dates = [];
     var date_x_locs = [];
-    for(var i = 0; i < 2; i++){
-      var date_obj = new Date(chron_range[i]);
+    var axis_date_strings = [];
+
+    for(var i = 0; i < s.num_axis_dates; i++){
+      axis_dates.push(s.round(s.map(i, 0, s.num_axis_dates - 1, chron_range[0],chron_range[1])));
+      var date_obj = new Date(axis_dates[i]);
       var date_month = parseInt(date_obj.getMonth());
-      begin_end_dates.push(months[date_month] + " "+date_obj.getFullYear());
-      date_x_locs.push(s.map(i, 0, 1, graphCenter.x - (graphWidth/2) + (1.5* graphBorder), graphCenter.x + (graphWidth/2) - (1.5*graphBorder)));
+      axis_date_strings.push(months[date_month] + " " + date_obj.getFullYear().toString().substring(2));
+      date_x_locs.push(s.map(i, 0, s.num_axis_dates - 1, graphCenter.x - (graphWidth/2) + (1.5* graphBorder), graphCenter.x + (graphWidth/2) - (1.5*graphBorder)));
     };
 
     s.push();
     s.fill(0);
-    for(var i = 0; i < 2; i++){
-      s.text(begin_end_dates[i],date_x_locs[i], (s.height/2)+(graphHeight/2) - (graphBorder/2));
-    }  
-
+    for(var i = 0; i < s.num_axis_dates; i++){
+      s.text(axis_date_strings[i],date_x_locs[i], (s.height/2)+(graphHeight/2) - (graphBorder/2));
+    };
     s.pop();
-
-
 
   };
 
