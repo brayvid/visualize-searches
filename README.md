@@ -13,6 +13,7 @@
 
 ## Example
 Labeled buttons will appear at the top of the graph window, but they have been omitted in this example.
-![](/example1.jpg)
-![](/example2.jpg)
+![](/examples/example1.jpg)
+![](/examples/example2.jpg)
+![](/examples/example3.jpg)
 
