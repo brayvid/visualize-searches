@@ -12,7 +12,7 @@
 - Open the browser console, navigate to localhost, and wait a few seconds to a couple minutes.
 
 ## Example
-A row of labeled buttons will appear at the top of the graph window, but they have been omitted in this example.
+Labeled buttons will appear at the top of the graph window, but they have been omitted in this example.
 ![](/example1.jpg)
 ![](/example2.jpg)
 
