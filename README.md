@@ -11,4 +11,5 @@
 - Open the browser console, navigate to localhost, and wait a few seconds to a couple minutes.
 
 ## Example
-![](/example.jpg)
+![](/example1.jpg)
+![](/example2.jpg)
