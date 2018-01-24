@@ -186,91 +186,175 @@ var frequency = function(s){
     s.words_to_plot = topWords(1);
     s.words_to_label = s.words_to_plot;
     
-    s.num_axis_dates = 11;
+    s.num_axis_dates = 8;
 
-    s.noLoop();
+    s.months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    s.axis_date_strings = [];
+
+    for(var i = 0; i < s.num_axis_dates; i++){
+      var axis_date = s.round(s.map(i, 0, s.num_axis_dates - 1, chron_range[0],chron_range[1]));
+      var date_obj = new Date(axis_date);
+      var date_month = parseInt(date_obj.getMonth());
+      s.axis_date_strings.push(s.months[date_month] + " \'" + date_obj.getFullYear().toString().substring(2));
+    };
+
+    s.graphBorder = 50;
+    s.graphCenter = s.createVector(s.width/2,s.height/2);
+    s.graphWidth = s.width - s.graphBorder;
+    s.graphHeight = s.height-4*s.graphBorder;
+    
+    s.display_switches = [];
+    
+    for(var i = 0; i < s.words_to_plot.length; i++){
+      s.display_switches.push(0);
+    }
+
+    s.single_view = false;
+    s.single_view_last;
   };
+
 
   s.draw = function(){
 
-    var graphBorder = 50;
-    var graphWidth = s.width - graphBorder, graphHeight = s.height-4*graphBorder;
-    var graphCenter = s.createVector(s.width/2,s.height/2);
+    s.graphCenter.set(s.width/2,s.height/2);
+    s.graphWidth = s.width - s.graphBorder;
+    s.graphHeight = s.height-4*s.graphBorder;
+
 
     s.background(128);
-    s.rect(s.width/2,s.height/2,graphWidth, graphHeight);
-    
+    s.rect(s.width/2,s.height/2,s.graphWidth, s.graphHeight);
     
 
-
+    /*  Draw graphs  */
     s.push();
-
     for(var i = 0; i < s.words_to_plot.length; i++){
 
       s.fill(s.colors[i][0], s.colors[i][1], s.colors[i][2]);
 
       var active_word = s.words_to_plot[i];
 
-      s.beginShape();
+      if(s.display_switches[i] == 0){
+        s.beginShape();
 
-      s.vertex(graphCenter.x - (graphWidth/2) + graphBorder, graphCenter.y + (graphHeight/2) - graphBorder);
-      for(var j = 0; j < num_bins; j++){
+        s.vertex(s.graphCenter.x - (s.graphWidth/2) + s.graphBorder, s.graphCenter.y + (s.graphHeight/2) - s.graphBorder);
+        for(var j = 0; j < num_bins; j++){
 
-        var current_x = s.map(j, 0, num_bins - 1, graphCenter.x - (graphWidth/2) + graphBorder, graphCenter.x + (graphWidth/2) - graphBorder);
-        var current_y = s.map(word_timeline[active_word][j], 0, global_max_freq,  graphCenter.y + (graphHeight/2) - graphBorder, graphCenter.y - (graphHeight/2) + graphBorder + 20);
-        s.vertex(current_x, current_y);
-      }
-      s.vertex(graphCenter.x + (graphWidth/2) - graphBorder, graphCenter.y + (graphHeight/2) - graphBorder);
+          var current_x = s.map(j, 0, num_bins - 1, s.graphCenter.x - (s.graphWidth/2) + s.graphBorder, s.graphCenter.x + (s.graphWidth/2) - s.graphBorder);
+          var current_y = s.map(word_timeline[active_word][j], 0, global_max_freq,  s.graphCenter.y + (s.graphHeight/2) - s.graphBorder, s.graphCenter.y - (s.graphHeight/2) + s.graphBorder + 20);
+          s.vertex(current_x, current_y);
+        }
+        s.vertex(s.graphCenter.x + (s.graphWidth/2) - s.graphBorder, s.graphCenter.y + (s.graphHeight/2) - s.graphBorder);
+        
+        s.endShape();
       
-      s.endShape();
+      }
     };
+      s.pop();
+    
 
-    s.pop();
-
-    // var ordered_words_to_label = [];
-
-    // for(var i = 0; i < words_to_label.length; i++){
-
-    // };
-
+    s.push();  
+    /*  Draw legend boxes  */
     for(var i = 0; i < s.words_to_label.length; i++){
       s.push();
-      var text_loc_x = s.map(i, 0, s.words_to_label.length - 1, graphCenter.x - (graphWidth/2) + graphBorder + 5, graphCenter.x + (graphWidth/2) - graphBorder - 5);
-      var active_word = s.words_to_label[i];
+      var text_loc_x = s.map(i, 0, s.words_to_label.length - 1, s.graphCenter.x - (s.graphWidth/2) + s.graphBorder + 5, s.graphCenter.x + (s.graphWidth/2) - s.graphBorder - 5);
+      if(s.single_view){
+        var active = (i == s.display_switches.indexOf(0));
+        if(active){
+          s.fill(s.colors[i][0], s.colors[i][1], s.colors[i][2]);
+        }else{
+          s.fill(255);
+        }
+      }else{
         s.fill(s.colors[i][0], s.colors[i][1], s.colors[i][2]);
-        s.rect(text_loc_x, 3 * graphBorder, 80, 20);
-        s.fill(255);
-        s.text(active_word,text_loc_x, 3* graphBorder + 4);
-        
+      }
+      s.rect(text_loc_x, 3 * s.graphBorder, 80, 20);
       s.pop();
     };
 
-    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-    var axis_dates = [];
-    var date_x_locs = [];
-    var axis_date_strings = [];
-
-    for(var i = 0; i < s.num_axis_dates; i++){
-      axis_dates.push(s.round(s.map(i, 0, s.num_axis_dates - 1, chron_range[0],chron_range[1])));
-      var date_obj = new Date(axis_dates[i]);
-      var date_month = parseInt(date_obj.getMonth());
-      axis_date_strings.push(months[date_month] + " " + date_obj.getFullYear().toString().substring(2));
-      date_x_locs.push(s.map(i, 0, s.num_axis_dates - 1, graphCenter.x - (graphWidth/2) + (1.5* graphBorder), graphCenter.x + (graphWidth/2) - (1.5*graphBorder)));
+     s.push();
+     s.textSize(10);
+        /*  Draw legend words  */
+    for(var i = 0; i < s.words_to_label.length; i++){
+      var text_loc_x = s.map(i, 0, s.words_to_label.length - 1, s.graphCenter.x - (s.graphWidth/2) + s.graphBorder + 5, s.graphCenter.x + (s.graphWidth/2) - s.graphBorder - 5);
+      var active_word = s.words_to_label[i];
+      if(s.single_view){
+        var active = (i == s.display_switches.indexOf(0));
+        if(active){
+          s.fill(255);
+        }else{
+          s.fill(0);
+        }
+      }else{
+        s.fill(255);
+      }
+      s.text(active_word,text_loc_x, 3* s.graphBorder + 4);
     };
+    s.pop();
 
+    var date_x_locs = [];
+
+    /*  Draw x-axis markings  */
     s.push();
     s.fill(0);
     for(var i = 0; i < s.num_axis_dates; i++){
-      s.text(axis_date_strings[i],date_x_locs[i], (s.height/2)+(graphHeight/2) - (graphBorder/2));
+      date_x_locs.push(s.map(i, 0, s.num_axis_dates - 1,1.5*s.graphBorder,s.width-(1.5*s.graphBorder)));
+      s.text(s.axis_date_strings[i],date_x_locs[i], (s.height/2)+(s.graphHeight/2) - (s.graphBorder/2));
     };
     s.pop();
 
   };
+
+
 
   s.windowResized = function(){
     s.resizeCanvas(s.windowWidth,s.windowHeight);
   };
+
+  s.mouseClicked = function(){
+    var click_x = s.mouseX;
+    var click_y = s.mouseY;
+    var button_to_check_y = 3 * s.graphBorder;
+    var button_width = 80;
+    var button_height = 20;
+
+    var clicked_button;
+    var success = false;
+   
+    for(var i = 0; i < s.words_to_label.length; i++){
+      var button_to_check_x = s.map(i, 0, s.words_to_label.length - 1, s.graphCenter.x - (s.graphWidth/2) + s.graphBorder + 5, s.graphCenter.x + (s.graphWidth/2) - s.graphBorder - 5);
+      if(s.abs(button_to_check_x - click_x) < (button_width / 2) && s.abs(button_to_check_y - click_y) < (button_height / 2)){ 
+        clicked_button = i;
+        success = true;
+      }
+    };
+
+    if(!s.single_view && success){
+      // begin single view
+      for(var j = 0; j < s.display_switches.length; j++){
+        s.display_switches[j] = 1;
+      }
+      s.display_switches[clicked_button] = 0;
+      s.single_view_last = clicked_button;
+      s.single_view = true;
+    }else if(s.single_view && (clicked_button == s.single_view_last) && success){
+      // return to full view
+      for(var j = 0; j < s.display_switches.length; j++){
+        s.display_switches[j] = 0;
+      }
+      s.single_view = false;
+    }else if(s.single_view && (clicked_button != s.single_view_last) && success){
+      // switch to new single view
+      for(var j = 0; j < s.display_switches.length; j++){
+        s.display_switches[j] = 1;
+      }
+      s.display_switches[clicked_button] = 0;
+      s.single_view_last = clicked_button;
+    }
+
+    // console.log(s.display_switches);
+
+  }
 
 
 };
