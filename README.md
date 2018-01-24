@@ -12,7 +12,7 @@
 - Open the browser console, navigate to localhost, and wait a few seconds to a couple minutes.
 
 ## Example
-The words are normally displayed but they have been omitted here. There would be a row of colored buttons at the top of the graph window.
+A row of labeled buttons normally appears at the top of the graph window, but they have been omitted here for privacy.
 ![](/example1.jpg)
 ![](/example2.jpg)
 
