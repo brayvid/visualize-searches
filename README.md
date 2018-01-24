@@ -1,4 +1,4 @@
-# Visualize top searches in MyActivity.html
+# Visualize frequent searches from a MyActivity file
 - Displays a frequency vs. time graph of the top&ast; words, either individually or side by side.
 - Only searched words are counted, and common words like "the" and "a" are ignored.
 - JQuery and p5.js are used via CDN.
