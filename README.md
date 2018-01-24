@@ -1,7 +1,7 @@
 # Visualize frequent searches from a MyActivity file
 - Only searched words are counted, and common words like "the" and "a" are ignored. 
 - The words are separated into 16 bins by timestamp, and the most frequent word in each bin is tracked through time.
-- Displays a frequency vs. time graph of the words, individually or all at once.
+- Displays a frequency vs. time graph of the words, individually or all at once (click a word to toggle).
 - JQuery and p5.js are used via CDN.
 
 ## Usage
