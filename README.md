@@ -13,3 +13,4 @@
 ## Example
 ![](/example1.jpg)
 ![](/example2.jpg)
+Words are normally displayed but they are omitted here. They appear across the top of the graph window.
