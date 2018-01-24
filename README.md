@@ -1,9 +1,8 @@
 # Visualize frequent searches from a MyActivity file
-- Displays a frequency vs. time graph of the top&ast; words, either individually or side by side.
-- Only searched words are counted, and common words like "the" and "a" are ignored.
+- Only searched words are counted, and common words like "the" and "a" are ignored. 
+- The words are separated into 16 bins by timestamp, and the most frequent word in each bin is tracked through time.
+- Displays a frequency vs. time graph of the words, individually or all at once.
 - JQuery and p5.js are used via CDN.
-
-&ast; The words are sorted into 16 equally spaced time-bins and the most frequent word in each bin is tracked throughout time.
 
 ## Usage
 - The required "MyActivity.html" file can be found at https://takeout.google.com/settings/takeout. Select: My Activity > Select specific activity data > (Choose a service), and follow the prompts.
