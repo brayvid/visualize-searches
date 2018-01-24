@@ -13,8 +13,8 @@
 
 ## Example
 Labeled buttons will appear at the top of the graph window, but they have been omitted here.
-![](/examples/example1.jpg)
+![](/examples/ex1.jpg)
 
 Single-word mode
-![](/examples/example2.jpg)
+![](/examples/ex2.jpg)
 
