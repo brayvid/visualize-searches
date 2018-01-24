@@ -17,5 +17,4 @@ Labeled buttons will appear at the top of the graph window, but they have been o
 
 Single-word mode
 ![](/examples/example2.jpg)
-![](/examples/example3.jpg)
 
