@@ -1,9 +1,9 @@
 # most-searched-in-google-products
-- Displays a frequency vs. time graph of the top&ast; words.
+- Displays a frequency vs. time graph of the top&ast; words, either individually or side by side.
 - Only searched words are counted, and common words like "the" and "a" are ignored.
 - JQuery and p5.js are used via CDN.
 
-&ast; The corpus is sorted into 16 equally spaced time-bins. The most frequent word in each bin is tracked throughout time. The number of bins can be changed in the code.
+&ast; The words are sorted into 16 equally spaced time-bins and the most frequent word in each bin is tracked throughout time.
 
 ## Usage
 - The required "MyActivity.html" file can be found at https://takeout.google.com/settings/takeout. Select: My Activity > Select specific activity data > (Choose a service), and follow the prompts.
@@ -11,5 +11,5 @@
 - Start a local web server from this directory. Here is one option: https://www.npmjs.com/package/http-server.
 - Open the browser console, navigate to localhost, and wait a few seconds to a couple minutes.
 
-## Example graph
+## Example
 ![](/example.jpg)
