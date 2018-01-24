@@ -14,6 +14,7 @@
 ## Example
 Labeled buttons will appear at the top of the graph window, but they have been omitted in this example.
 ![](/examples/example1.jpg)
+Single-word mode
 ![](/examples/example2.jpg)
 ![](/examples/example3.jpg)
 
