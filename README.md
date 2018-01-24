@@ -10,3 +10,6 @@
 - Place the MyActivity file in the directory that myFun.js, wordsToIgnore.js and index.html are in.
 - Start a local web server from this directory. Here is one option: https://www.npmjs.com/package/http-server.
 - Open the browser console, navigate to localhost, and wait a few seconds to a couple minutes.
+
+## Example graph
+![](/example.jpg)
