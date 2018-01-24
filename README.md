@@ -11,7 +11,7 @@
 - Open the browser console, navigate to localhost, and wait a few seconds to a couple minutes.
 
 ## Example
-The words are normally displayed but they have been omitted here. They appear across the top of the graph window.
+The words are normally displayed but they have been omitted here. They appear at the top of the graph window.
 ![](/example1.jpg)
 ![](/example2.jpg)
 
