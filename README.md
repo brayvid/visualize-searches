@@ -1,4 +1,4 @@
-# See which search terms you used most over time
+# Generate a graph of the terms you searched most over time
 - Only searched words are counted, and common words like "the" and "a" are ignored. 
 - The words are separated into 16 bins by timestamp, and the most frequent word in each bin is tracked through time.
 - A frequency vs. time graph of each frequent word is displayed. Clicking a word toggles single-word mode.
