@@ -5,10 +5,10 @@
 - JQuery and p5.js are used via CDN.
 
 ## Usage
-- A directory containing myFun.js, wordsToIgnore.js and index.html has to be served to your browser.
-- The required "MyActivity.html" file can be found at https://takeout.google.com/settings/takeout. Select: My Activity > Select specific activity data > (Choose a service), and follow the prompts.
-- Place the MyActivity file in the directory.
-- Start a local web server from the directory. Here is one option: https://www.npmjs.com/package/http-server.
+- The files myFun.js, wordsToIgnore.js and index.html have to be served to your browser.
+- The "MyActivity.html" file can be found at https://takeout.google.com/settings/takeout. Select: My Activity > Select specific activity data > (Choose a service), and follow the prompts.
+- Place the MyActivity file in the same directory as the others.
+- Start a local web server from this directory. Here is one server option: https://www.npmjs.com/package/http-server.
 - Open the browser console, navigate to localhost, and wait a few seconds to a couple minutes.
 
 ## Example
