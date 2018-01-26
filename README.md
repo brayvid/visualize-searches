@@ -10,8 +10,9 @@
 - Open the browser console, navigate to localhost, and wait a few seconds to a couple minutes depending on the size of the MyActivity file.
 
 ## Example
-![](/examples/ex-1.png)
+![](/examples/example-1.png)
 
-Single-word mode
-![](/examples/ex-2.png)
+![](/examples/example-2.png)
+
+![](/examples/example-3.png)
 
