@@ -1,7 +1,7 @@
 # Display a graph of your top search terms in the browser
 - Only searched words are counted, and common words like "the" and "a" are ignored. 
 - Words are separated into bins by timestamp, and the most frequent word in each bin is tracked through time.
-- Each word's count-per-bin is plotted with time. Clicking on a word toggles single-word mode.
+- Each word's count-per-bin is plotted with time. Clicking on a word toggles it on and off.
 - [p5](https://p5js.org/) and [JQuery](https://jquery.com/) are used via CDN links in the index.html file.
 
 ## Usage
