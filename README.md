@@ -1,7 +1,7 @@
-# Graph the terms you searched most over time with p5.js
+# Display a graph of your top search terms in the browser
 - Only searched words are counted, and common words like "the" and "a" are ignored. 
-- The words are separated into 16 bins by timestamp, and the most frequent word in each bin is tracked through time.
-- A frequency vs. time graph of each frequent word is displayed. Clicking a word toggles single-word mode.
+- Words are separated into bins by timestamp, and the most frequent word in each bin is tracked through time.
+- Each word's count-per-bin is plotted with time. Clicking on a word toggles single-word mode.
 - p5 and JQuery are used via CDN.
 
 ## Usage
@@ -10,8 +10,8 @@
 - Open the browser console, navigate to localhost, and wait a few seconds to a couple minutes depending on the size of the MyActivity file.
 
 ## Example
-![](/examples/ex1.jpg)
+![](/examples/ex-1.png)
 
 Single-word mode
-![](/examples/ex2.jpg)
+![](/examples/ex-2.png)
 
