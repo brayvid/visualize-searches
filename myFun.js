@@ -14,7 +14,7 @@ var frequency = function(s){
   var frequencies = {}; // Keys are unique words. Elements are numbers.
   var dates = {}; // Keys are unique words. Elements are arrays of datestamps.
 
-  var num_bins = 16;
+  var num_bins = 11;
 
   var num_last_entries_to_check = list_elem.childElementCount; // Number of most recent events to scan for searches.
 
@@ -177,16 +177,29 @@ var frequency = function(s){
     s.rectMode(s.CENTER);
     s.noStroke();
     s.textAlign(s.CENTER);
+    s.textSize(14);
+    s.textFont('Verdana')
 
-    s.colors = [];
-    for(var i = 0; i < 1000; i++){
-      s.colors.push([s.random(50,225), s.random(50,225), s.random(50,225)]);
-    }
+    s.colors = [
+    [93, 175, 48],
+    [185, 165, 58],
+    [76, 188, 196],
+    [114, 89, 127],
+    [218, 142, 188],
+    [220, 65, 101],
+    [145, 175, 195],
+    [80, 126, 57],
+    [121, 76, 163],
+    [79, 130, 142],
+    ];
+    // for(var i = 0; i < 1000; i++){
+    //   s.colors.push([s.random(50,225), s.random(50,225), s.random(50,225)]);
+    // }
 
     s.words_to_plot = topWords(1);
     s.words_to_label = s.words_to_plot;
     
-    s.num_axis_dates = 8;
+    s.num_axis_dates = 5;
 
     s.months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -196,7 +209,7 @@ var frequency = function(s){
       var axis_date = s.round(s.map(i, 0, s.num_axis_dates - 1, chron_range[0],chron_range[1]));
       var date_obj = new Date(axis_date);
       var date_month = parseInt(date_obj.getMonth());
-      s.axis_date_strings.push(s.months[date_month] + " \'" + date_obj.getFullYear().toString().substring(2));
+      s.axis_date_strings.push(s.months[date_month] + " " + date_obj.getFullYear().toString());
     };
 
     s.graphBorder = 50;
@@ -207,11 +220,11 @@ var frequency = function(s){
     s.display_switches = [];
     
     for(var i = 0; i < s.words_to_plot.length; i++){
-      s.display_switches.push(0);
+      s.display_switches.push(1);
     }
 
     s.single_view = false;
-    s.single_view_last;
+    s.last_click;
   };
 
 
@@ -241,7 +254,7 @@ var frequency = function(s){
         for(var j = 0; j < num_bins; j++){
 
           var current_x = s.map(j, 0, num_bins - 1, s.graphCenter.x - (s.graphWidth/2) + s.graphBorder, s.graphCenter.x + (s.graphWidth/2) - s.graphBorder);
-          var current_y = s.map(word_timeline[active_word][j], 0, global_max_freq,  s.graphCenter.y + (s.graphHeight/2) - s.graphBorder, s.graphCenter.y - (s.graphHeight/2) + s.graphBorder + 20);
+          var current_y = s.map(word_timeline[active_word][j], 0, global_max_freq,  s.graphCenter.y + (s.graphHeight/2) - s.graphBorder, s.graphCenter.y - (s.graphHeight/2) + s.graphBorder + 30);
           s.vertex(current_x, current_y);
         }
         s.vertex(s.graphCenter.x + (s.graphWidth/2) - s.graphBorder, s.graphCenter.y + (s.graphHeight/2) - s.graphBorder);
@@ -256,37 +269,27 @@ var frequency = function(s){
     s.push();  
     /*  Draw legend boxes  */
     for(var i = 0; i < s.words_to_label.length; i++){
-      s.push();
-      var text_loc_x = s.map(i, 0, s.words_to_label.length - 1, s.graphCenter.x - (s.graphWidth/2) + s.graphBorder + 5, s.graphCenter.x + (s.graphWidth/2) - s.graphBorder - 5);
-      if(s.single_view){
-        var active = (i == s.display_switches.indexOf(0));
-        if(active){
-          s.fill(s.colors[i][0], s.colors[i][1], s.colors[i][2]);
-        }else{
-          s.fill(255);
-        }
-      }else{
+      var text_loc_x = s.map(i, 0, s.words_to_label.length - 1, s.graphCenter.x - (s.graphWidth/2) + s.graphBorder + 50, s.graphCenter.x + (s.graphWidth/2) - s.graphBorder - 50);
+      var active = (s.display_switches[i] == 0);
+      if(active){
         s.fill(s.colors[i][0], s.colors[i][1], s.colors[i][2]);
-      }
-      s.rect(text_loc_x, 3 * s.graphBorder, 80, 20);
-      s.pop();
-    };
-
-     s.push();
-     s.textSize(10);
-        /*  Draw legend words  */
-    for(var i = 0; i < s.words_to_label.length; i++){
-      var text_loc_x = s.map(i, 0, s.words_to_label.length - 1, s.graphCenter.x - (s.graphWidth/2) + s.graphBorder + 5, s.graphCenter.x + (s.graphWidth/2) - s.graphBorder - 5);
-      var active_word = s.words_to_label[i];
-      if(s.single_view){
-        var active = (i == s.display_switches.indexOf(0));
-        if(active){
-          s.fill(255);
-        }else{
-          s.fill(0);
-        }
       }else{
         s.fill(255);
+      }
+      s.rect(text_loc_x, 3 * s.graphBorder, 120, 35);
+    };
+    s.pop();
+
+     s.push();
+        /*  Draw legend words  */
+    for(var i = 0; i < s.words_to_label.length; i++){
+      var text_loc_x = s.map(i, 0, s.words_to_label.length - 1, s.graphCenter.x - (s.graphWidth/2) + s.graphBorder + 50, s.graphCenter.x + (s.graphWidth/2) - s.graphBorder - 50);
+      var active_word = s.words_to_label[i];
+      var active = (s.display_switches[i] == 0);
+      if(active){
+        s.fill(255);
+      }else{
+        s.fill(0);
       }
       s.text(active_word,text_loc_x, 3* s.graphBorder + 4);
     };
@@ -298,7 +301,7 @@ var frequency = function(s){
     s.push();
     s.fill(0);
     for(var i = 0; i < s.num_axis_dates; i++){
-      date_x_locs.push(s.map(i, 0, s.num_axis_dates - 1,1.5*s.graphBorder,s.width-(1.5*s.graphBorder)));
+      date_x_locs.push(s.map(i, 0, s.num_axis_dates - 1,2.2*s.graphBorder,s.width-(2.2*s.graphBorder)));
       s.text(s.axis_date_strings[i],date_x_locs[i], (s.height/2)+(s.graphHeight/2) - (s.graphBorder/2));
     };
     s.pop();
@@ -315,41 +318,39 @@ var frequency = function(s){
     var click_x = s.mouseX;
     var click_y = s.mouseY;
     var button_to_check_y = 3 * s.graphBorder;
-    var button_width = 80;
-    var button_height = 20;
+    var button_width = 120;
+    var button_height = 35;
 
     var clicked_button;
     var success = false;
    
     for(var i = 0; i < s.words_to_label.length; i++){
-      var button_to_check_x = s.map(i, 0, s.words_to_label.length - 1, s.graphCenter.x - (s.graphWidth/2) + s.graphBorder + 5, s.graphCenter.x + (s.graphWidth/2) - s.graphBorder - 5);
+      var button_to_check_x = s.map(i, 0, s.words_to_label.length - 1, s.graphCenter.x - (s.graphWidth/2) + s.graphBorder + 50, s.graphCenter.x + (s.graphWidth/2) - s.graphBorder - 50);
       if(s.abs(button_to_check_x - click_x) < (button_width / 2) && s.abs(button_to_check_y - click_y) < (button_height / 2)){ 
         clicked_button = i;
         success = true;
       }
     };
 
-    if(!s.single_view && success){
+    if(success && s.display_switches.indexOf(0) == -1){
       // begin single view
       for(var j = 0; j < s.display_switches.length; j++){
         s.display_switches[j] = 1;
       }
       s.display_switches[clicked_button] = 0;
-      s.single_view_last = clicked_button;
-      s.single_view = true;
-    }else if(s.single_view && (clicked_button == s.single_view_last) && success){
-      // return to full view
-      for(var j = 0; j < s.display_switches.length; j++){
-        s.display_switches[j] = 0;
-      }
-      s.single_view = false;
-    }else if(s.single_view && (clicked_button != s.single_view_last) && success){
+    }else if(success && s.display_switches[clicked_button] == 0){
+      // deselect
+      // for(var j = 0; j < s.display_switches.length; j++){
+      //   s.display_switches[j] = 0;
+      // }
+      // s.single_view = false;
+      s.display_switches[clicked_button] = 1;
+    }else if(success && s.display_switches[clicked_button] == 1){
       // switch to new single view
-      for(var j = 0; j < s.display_switches.length; j++){
-        s.display_switches[j] = 1;
-      }
+      // for(var j = 0; j < s.display_switches.length; j++){
+      //   s.display_switches[j] = 1;
+      // }
       s.display_switches[clicked_button] = 0;
-      s.single_view_last = clicked_button;
     }
 
     // console.log(s.display_switches);
