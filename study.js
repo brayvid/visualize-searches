@@ -180,21 +180,10 @@ var frequency = function(s){
     s.textSize(14);
     s.textFont('Verdana')
 
-    s.colors = [
-    [93, 175, 48],
-    [185, 165, 58],
-    [76, 188, 196],
-    [114, 89, 127],
-    [218, 142, 188],
-    [220, 65, 101],
-    [145, 175, 195],
-    [80, 126, 57],
-    [121, 76, 163],
-    [79, 130, 142],
-    ];
-    // for(var i = 0; i < 1000; i++){
-    //   s.colors.push([s.random(50,225), s.random(50,225), s.random(50,225)]);
-    // }
+    s.colors = [];
+    for(var i = 0; i < 1000; i++){
+      s.colors.push([s.random(50,225), s.random(50,225), s.random(50,225)]);
+    };
 
     s.words_to_plot = topWords(1);
     s.words_to_label = s.words_to_plot;
@@ -351,11 +340,11 @@ var frequency = function(s){
       //   s.display_switches[j] = 1;
       // }
       s.display_switches[clicked_button] = 0;
-    }
+    };
 
     // console.log(s.display_switches);
 
-  }
+  };
 
 
 };
