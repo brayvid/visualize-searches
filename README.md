@@ -9,7 +9,7 @@
 - Start a local web server from your working directory. Here is one server option: https://www.npmjs.com/package/http-server.
 - Open the browser console, navigate to localhost, and wait a few seconds to a couple minutes depending on the size of the MyActivity file.
 
-## Example with Youtube
+## Example (Youtube)
 ![](/examples/example-1.png)
 
 ![](/examples/example-2.png)
