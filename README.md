@@ -9,7 +9,7 @@
 - Start a local web server from your working directory. Here is one option: https://www.npmjs.com/package/http-server.
 - Open the browser console, navigate to localhost, and wait a few seconds to a couple minutes for the window to appear, depending on the size of the MyActivity file.
 
-## Results
+## Results with Youtube
 
 ![](/examples/example-2.png)
 
