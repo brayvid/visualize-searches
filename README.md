@@ -1,4 +1,4 @@
-# Graph searches in the browser.
+# Graph your Google searches in the browser.
 - Words in searches are counted. Common words like "the" and "what" are ignored.
 - The list is divided into intervals (bins) by timestamp, and the most frequent word in each bin is selected.
 - Each frequent word's count-in-bin is plotted with time. Clicking on a word toggles its graph on and off.
