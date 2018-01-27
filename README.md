@@ -1,6 +1,6 @@
 # Graph searches in the browser
 - Words in searches are counted. Common words like "the" and "what" are ignored.
-- The list is divided into bins by timestamp, and the most frequent word in each bin is selected.
+- The list is divided into intervals by timestamp, and the most frequent word in each bin is selected.
 - Each frequent word's count-in-bin is plotted with time. Clicking on a word toggles its graph on and off.
 - [p5](https://p5js.org/) and [JQuery](https://jquery.com/) are used via CDN links in the index.html file.
 
