@@ -10,9 +10,9 @@
 - Open the browser console, navigate to localhost, and wait a few seconds to a couple minutes for the window to appear, depending on the size of the MyActivity file.
 
 ## Sample results
-![](/examples/example-1.png)
 
 ![](/examples/example-2.png)
 
 ![](/examples/example-3.png)
 
+![](/examples/example-1.png)
